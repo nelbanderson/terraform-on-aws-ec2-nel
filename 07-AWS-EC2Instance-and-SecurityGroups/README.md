@@ -140,7 +140,7 @@ data "aws_ami" "amzlinux2" {
   owners = [ "amazon" ]
   filter {
     name = "name"
-    values = [ "amzn2-ami-hvm-*-gp2" ]
+    values = [ "amzn2-ami-kernel-5.10-hvm-*-gp2" ]
   }
   filter {
     name = "root-device-type"
@@ -164,7 +164,7 @@ data "aws_ami" "amzlinux2" {
 variable "instance_type" {
   description = "EC2 Instance Type"
   type = string
-  default = "t3.micro"  
+  default = "t2.micro"  
 }
 # AWS EC2 Instance Key Pair
 variable "instance_keypair" {
@@ -310,7 +310,7 @@ resource "null_resource" "name" {
 ## Step-09: ec2instance.auto.tfvars
 ```t
 # EC2 Instance Variables
-instance_type = "t3.micro"  
+instance_type = "t2.micro"  
 instance_keypair = "terraform-key"
 ```
 ## Step-10: Usage of depends_on Meta-Argument

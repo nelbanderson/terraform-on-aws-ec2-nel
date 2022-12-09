@@ -99,7 +99,7 @@ Observations:
 
 ## Step-06: Expected Error Message
 ```t
-Error: Error launching source instance: Unsupported: Your requested instance type (t3.micro) is not supported in your requested Availability Zone (us-east-1e). Please retry your request by not specifying an Availability Zone or choosing us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f.
+Error: Error launching source instance: Unsupported: Your requested instance type (t2.micro) is not supported in your requested Availability Zone (us-east-1e). Please retry your request by not specifying an Availability Zone or choosing us-east-1a, us-east-1b, us-east-1c, us-east-1d, us-east-1f.
 	status code: 400, request id: 52e0e358-17a0-434b-80de-5bc5f956eedb
 
   on c5-ec2instance.tf line 35, in resource "aws_instance" "myec2vm":

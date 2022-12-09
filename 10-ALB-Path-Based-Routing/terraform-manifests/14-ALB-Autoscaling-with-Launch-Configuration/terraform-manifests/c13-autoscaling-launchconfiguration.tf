@@ -12,7 +12,7 @@ module "autoscaling" {
   lc_name = "myasg-lc1"
 
   image_id        = data.aws_ami.amzlinux2.id
-  instance_type   = "t3.micro"
+  instance_type   = "t2.micro"
   security_groups = [module.private_sg.this_security_group_id]
   #load_balancers  = [module.alb.this_lb_id] - for ELB-CLB
   target_group_arns = module.alb.target_group_arns # FOR ALB TG

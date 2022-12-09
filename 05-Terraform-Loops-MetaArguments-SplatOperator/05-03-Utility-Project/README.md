@@ -4,8 +4,8 @@
 ### Current Problem: 
 - We are not able to create EC2 Instances in all the subnets of our VPC which are spread across all availability zones in that region
 ### Approach to  a Solution:
-- We need to find a solution to say that our desired EC2 Instance Type `example: t3.micro` is supported in that availability zone or not
-- In simple terms, give me the availability zone list in a particular region where by desired EC2 Instance Type (t3.micro) is supported
+- We need to find a solution to say that our desired EC2 Instance Type `example: t2.micro` is supported in that availability zone or not
+- In simple terms, give me the availability zone list in a particular region where by desired EC2 Instance Type (t2.micro) is supported
 ### Why utility project?
 - In Terraform, we should `not` go and try things directly in large code base. 
 - First try your requirements in small chunks and integrate that to main code base.
@@ -24,7 +24,7 @@ provider "aws" {
 - We are first going to explore the datasource and it outputs
 ```t
 # Determine which Availability Zones support your instance type
-aws ec2 describe-instance-type-offerings --location-type availability-zone  --filters Name=instance-type,Values=t3.micro --region us-east-1 --output table
+aws ec2 describe-instance-type-offerings --location-type availability-zone  --filters Name=instance-type,Values=t2.micro --region us-east-1 --output table
 ```
 ### Step-03-01: Review / Create the datasource and its output
 ```t
@@ -32,7 +32,7 @@ aws ec2 describe-instance-type-offerings --location-type availability-zone  --fi
 data "aws_ec2_instance_type_offerings" "my_ins_type1" {
   filter {
     name   = "instance-type"
-    values = ["t3.micro"]
+    values = ["t2.micro"]
   }
   filter {
     name   = "location"
@@ -60,10 +60,10 @@ terraform validate
 terraform plan
 terraform apply -auto-approve
 Observation: 
-1. Output should have the instance value `t3.micro` when `values = ["us-east-1a"]` in location filter
+1. Output should have the instance value `t2.micro` when `values = ["us-east-1a"]` in location filter
 # Sample Output
 output_v1_1 = toset([
-  "t3.micro",
+  "t2.micro",
 ])
 
 # Make a change
@@ -88,7 +88,7 @@ data "aws_ec2_instance_type_offerings" "my_ins_type2" {
   for_each = toset([ "us-east-1a", "us-east-1e" ])
   filter {
     name   = "instance-type"
-    values = ["t3.micro"]
+    values = ["t2.micro"]
   }
   filter {
     name   = "location"
@@ -122,13 +122,13 @@ Observation: refer sample output
 # Sample Output
 output_v2_1 = toset([
   toset([
-    "t3.micro",
+    "t2.micro",
   ]),
   toset([]),
 ])
 output_v2_2 = {
   "us-east-1a" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1e" = toset([])
 }
@@ -157,7 +157,7 @@ data "aws_ec2_instance_type_offerings" "my_ins_type" {
 for_each=toset(data.aws_availability_zones.my_azones.names)
   filter {
     name   = "instance-type"
-    values = ["t3.micro"]
+    values = ["t2.micro"]
   }
   filter {
     name   = "location"
@@ -201,41 +201,41 @@ output "output_v3_4" {
 terraform plan
 terraform appy -auto-approve
 Observation: refer sample output
-1. In the final output you will only get the availability zones list in which `t3.micro` instance is supported
+1. In the final output you will only get the availability zones list in which `t2.micro` instance is supported
 # Sample Output
 output_v3_1 = {
   "us-east-1a" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1b" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1c" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1d" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1e" = toset([])
   "us-east-1f" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
 }
 output_v3_2 = {
   "us-east-1a" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1b" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1c" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1d" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
   "us-east-1f" = toset([
-    "t3.micro",
+    "t2.micro",
   ])
 }
 output_v3_3 = [
